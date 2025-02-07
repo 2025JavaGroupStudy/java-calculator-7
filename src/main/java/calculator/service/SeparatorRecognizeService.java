@@ -36,6 +36,8 @@ public class SeparatorRecognizeService {
             }else if(Character.isDigit(word)){
                 normalClause+=word;
                 normalDetected=true;
+            }else{
+                throw new IllegalArgumentException("Invalid string format");
             }
             detectResult.setDetected(false);
         }

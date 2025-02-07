@@ -5,13 +5,7 @@ import calculator.view.Console;
 
 public class Application {
     public static void main(String[] args) {
-        try{
-            new Application().run();
-
-        } catch (IllegalArgumentException e) {
-            System.err.println("ERROR : " + e.getMessage());
-            return;
-        }
+        new Application().run();
     }
 
     public void run(){

@@ -55,6 +55,7 @@ public class CalculatorController {
     }
 
     public void output(){
-        console.print("결과 : " + calculationResult);
+        String content = "결과 : " + calculationResult;
+        console.print(content);
     }
 }
