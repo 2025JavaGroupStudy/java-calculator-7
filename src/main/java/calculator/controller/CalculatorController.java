@@ -39,15 +39,17 @@ public class CalculatorController {
         int leng = rawArg.length();
         for(int i=0; i<leng; i++) {
             temp = rawArg.charAt(i);
-            detectResult[0] = separatorRecognizeService.normalDetect(temp, i, leng);
-            detectResult[1] = separatorRecognizeService.specialDetect(temp, i, leng);
+            detectResult[0] = separatorRecognizeService.specialDetect(temp, i, leng);
 
-            if(detectResult[0].getDetected()) {
-                int num = detectResult[0].getResultNum();
-                numberList.add(num);
+            if(!(detectResult[0].getDetected()==2)) {
+                detectResult[1] = separatorRecognizeService.normalDetect(temp, i, leng);
+                if(detectResult[1].getDetected()==1) {
+                    int num = detectResult[1].getResultNum();
+                    numberList.add(num);
+                }
             }
-            if(detectResult[1].getDetected()) {
-                int num = detectResult[1].getResultNum();
+            if(detectResult[0].getDetected()==1) {
+                int num = detectResult[0].getResultNum();
                 numberList.add(num);
             }
         }
@@ -55,7 +57,7 @@ public class CalculatorController {
     }
 
     public void output(){
-        String content = "결과 : " + calculationResult;
+        String content = "결과 : " + String.valueOf(calculationResult);
         console.print(content);
     }
 }

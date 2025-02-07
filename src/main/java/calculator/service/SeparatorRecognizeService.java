@@ -10,7 +10,7 @@ public class SeparatorRecognizeService {
     private String specialSeparator="";
 
     private boolean normalDetected=false;
-    private boolean specialDetected=false;
+    private int specialDetected=0;
     private int specialState = 0;
     private int specialSeparatorDetected=0;
 
@@ -22,12 +22,12 @@ public class SeparatorRecognizeService {
                 normalDetected = false;
                 normalClause = "";
 
-                detectResult.setDetected(true);
+                detectResult.setDetected(1);
                 detectResult.setResultNum(result);
 
             }else{
                 normalClause += word;
-                detectResult.setDetected(false);
+                detectResult.setDetected(0);
             }
 
         }else{
@@ -39,7 +39,7 @@ public class SeparatorRecognizeService {
             }else{
                 throw new IllegalArgumentException("Invalid string format");
             }
-            detectResult.setDetected(false);
+            detectResult.setDetected(0);
         }
 
         if(len-1==index){
@@ -47,7 +47,7 @@ public class SeparatorRecognizeService {
             normalDetected = false;
             normalClause = "";
 
-            detectResult.setDetected(true);
+            detectResult.setDetected(1);
             detectResult.setResultNum(result);
         }
 
@@ -58,33 +58,38 @@ public class SeparatorRecognizeService {
         DetectResult detectResult = new DetectResult();
         switch (specialState) {
             case 0:
-                detectResult.setDetected(false);
+                detectResult.setDetected(0);
                 if (specialSeparator!=""&&word == specialSeparator.charAt(specialSeparatorDetected)) {
+                    detectResult.setDetected(2);
                     specialSeparatorDetected++;
 
                     if (specialSeparator.length() > 1 && specialSeparator.length() == specialSeparatorDetected) {
                         specialSeparatorDetected = 0;
-                        specialDetected = true;
-                    } else if (specialDetected) {
+                        specialDetected = 1;
+                    } else if (specialDetected==1) {
                         int result = NumberProcessService.stringToInt(specialClause);
-                        specialDetected = false;
+                        specialDetected = 0;
                         specialClause = "";
 
-                        detectResult.setDetected(true);
+                        detectResult.setDetected(1);
                         detectResult.setResultNum(result);
                     }
 
-                } else if (specialDetected) {
+                } else if (specialDetected==1) {
+                    detectResult.setDetected(2);
                     specialClause += word;
                     if(len-1==index){
                         int result = NumberProcessService.stringToInt(specialClause);
-                        specialDetected = false;
+                        specialDetected = 0;
                         specialClause = "";
 
-                        detectResult.setDetected(true);
+                        detectResult.setDetected(1);
                         detectResult.setResultNum(result);
                     }
-                } else if (word == '/') specialState++;
+                } else if (word == '/') {
+                    detectResult.setDetected(2);
+                    specialState++;
+                }
                 else specialSeparatorDetected = 0;
 
                 return detectResult;
@@ -92,22 +97,22 @@ public class SeparatorRecognizeService {
                 if (word == '/') specialState++;
                 else throw new IllegalArgumentException("Invalid string format");
 
-                detectResult.setDetected(false);
+                detectResult.setDetected(2);
                 return detectResult;
             case 2:
                 if (word == '\\') specialState++;
                 else specialSeparator += word;
 
-                detectResult.setDetected(false);
+                detectResult.setDetected(2);
                 return detectResult;
             case 3:
                 if (word == 'n') specialState = 0;
                 else throw new IllegalArgumentException("Invalid string format");
 
-                detectResult.setDetected(false);
+                detectResult.setDetected(2);
                 return detectResult;
         }
-        detectResult.setDetected(false);
+        detectResult.setDetected(0);
         return detectResult;
     }
 }

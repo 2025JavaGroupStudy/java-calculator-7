@@ -1,11 +1,11 @@
 package calculator.Model;
 
 public class DetectResult {
-    private boolean isDetected;
+    private int isDetected;
     private int resultNum;
 
     public DetectResult(){
-        this.isDetected = false;
+        this.isDetected = 0;
         this.resultNum = 0;
     }
 
@@ -13,12 +13,12 @@ public class DetectResult {
         return resultNum;
     }
 
-    public boolean getDetected(){
+    public int getDetected(){
         return isDetected;
     }
 
-    public void setDetected(boolean bool){
-        this.isDetected = bool;
+    public void setDetected(int num){
+        this.isDetected = num;
     }
 
     public void setResultNum(int resultNum) {
