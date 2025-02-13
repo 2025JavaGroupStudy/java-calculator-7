@@ -4,7 +4,7 @@ import java.util.List;
 
 public class NumberProcessUtil {
     public static int stringToInt(String arg){
-        if(!arg.matches("\\d+")) throw new IllegalArgumentException("Invalid number format");
+        if(arg == null || !arg.matches("\\d+")) throw new IllegalArgumentException("Invalid number format");
         return Integer.parseInt(arg);
     }
 
