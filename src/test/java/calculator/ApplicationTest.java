@@ -24,6 +24,14 @@ class ApplicationTest extends NsTest {
         );
     }
 
+    @Test
+    void 여러개_테스트(){
+        assertSimpleTest(()-> {
+            run("1://;\\n1;2");
+            assertThat(output()).contains("결과 : 4");
+        });
+    }
+
     @Override
     public void runMain() {
         Application.main(new String[]{});

@@ -1,7 +1,8 @@
 package calculator;
 
 import calculator.controller.CalculatorController;
-import calculator.view.Console;
+import calculator.service.SeparatorRecognizeService;
+import calculator.view.CalculatorView;
 
 public class Application {
     public static void main(String[] args) {
@@ -9,11 +10,11 @@ public class Application {
     }
 
     public void run(){
-        Console console = new Console();
-        CalculatorController controller = new CalculatorController(console);
+        CalculatorView calculatorView = new CalculatorView();
+        SeparatorRecognizeService separatorRecognizeService = new SeparatorRecognizeService();
+        CalculatorController controller = new CalculatorController(calculatorView, separatorRecognizeService);
 
         controller.input();
-        controller.process();
-        controller.output();
+        controller.calculate();
     }
 }

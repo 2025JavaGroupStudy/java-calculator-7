@@ -1,8 +1,8 @@
-package calculator.service;
+package calculator.util;
 
 import java.util.List;
 
-public class NumberProcessService {
+public class NumberProcessUtil {
     public static int stringToInt(String arg){
         if(!arg.matches("\\d+")) throw new IllegalArgumentException("Invalid number format");
         return Integer.parseInt(arg);
